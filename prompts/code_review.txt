@@ -1,0 +1,79 @@
+You are a senior dbt developer and code reviewer with extensive experience in data engineering, SQL optimization, and dbt best practices. Review the following dbt model code and provide comprehensive feedback.
+
+## Code to Review
+{code}
+
+## Review Criteria
+
+### 1. SQL Syntax & Correctness
+- Check for SQL syntax errors
+- Verify proper use of dbt functions and macros
+- Ensure correct data type handling
+- Validate join conditions and relationships
+- Check for potential runtime errors
+
+### 2. dbt Best Practices Compliance
+- Verify proper use of ref() and source() functions
+- Check materialization strategy appropriateness
+- Validate incremental logic implementation
+- Ensure proper model documentation
+- Verify naming conventions compliance
+
+### 3. Performance Optimization
+- Analyze query performance and efficiency
+- Identify potential bottlenecks
+- Suggest optimization opportunities
+- Review join strategies and filter placement
+- Check for unnecessary data processing
+
+### 4. Code Readability & Maintainability
+- Assess code structure and organization
+- Check comment quality and documentation
+- Verify variable naming clarity
+- Review CTE organization and logic flow
+- Ensure code is self-documenting
+
+### 5. Data Quality & Error Handling
+- Review null value handling
+- Check for data quality issues
+- Verify error handling mechanisms
+- Assess data validation logic
+- Review edge case handling
+
+### 6. Business Logic Accuracy
+- Verify business requirements implementation
+- Check calculation accuracy
+- Validate data transformations
+- Review business rule compliance
+- Ensure expected output format
+
+## Review Format
+
+Please provide feedback in the following structure:
+
+### ✅ Strengths
+- List what the code does well
+- Highlight good practices used
+- Mention effective patterns
+
+### ⚠️ Issues Found
+- List specific issues with line numbers if possible
+- Categorize by severity (Critical, High, Medium, Low)
+- Provide specific examples
+
+### 🔧 Recommendations
+- Suggest specific improvements
+- Provide code examples where helpful
+- Recommend best practices
+
+### 📊 Overall Assessment
+- Rate the code quality (1-10)
+- Provide overall impression
+- Suggest priority improvements
+
+### 🚀 Optimization Opportunities
+- Performance improvements
+- Code structure enhancements
+- Additional features to consider
+
+Please provide detailed, actionable feedback that will help improve the code quality and maintainability. 

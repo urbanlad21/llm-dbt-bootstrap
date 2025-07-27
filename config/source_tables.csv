@@ -1,0 +1,6 @@
+table_name,source_schema,source_database,file_format,location,description,refresh_frequency,partition_by,cluster_by
+customers,raw_data,analytics,CSV,s3://bucket/raw/customers/,Customer data from CRM,daily,date,created_at
+orders,raw_data,analytics,CSV,s3://bucket/raw/orders/,Order data from e-commerce,daily,date,order_date
+products,raw_data,analytics,CSV,s3://bucket/raw/products/,Product catalog data,weekly,date,updated_at
+order_items,raw_data,analytics,CSV,s3://bucket/raw/order_items/,Order line items data,daily,date,created_at
+categories,raw_data,analytics,CSV,s3://bucket/raw/categories/,Product categories data,monthly,date,updated_at 

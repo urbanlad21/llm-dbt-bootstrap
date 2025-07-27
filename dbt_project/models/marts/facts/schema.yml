@@ -1,0 +1,23 @@
+version: 2
+models:
+- name: fact_orders
+  description: Order fact table with customer information
+  config:
+    contract:
+      enforced: true
+  columns:
+  - name: order_id
+    description: Unique order identifier
+  - name: customer_id
+    description: Customer identifier
+  - name: customer_email
+    description: Customer email from joined customer table
+  - name: customer_name
+    description: 'Full customer name (first_name + last_name) (Transformation: concatenate
+      first_name and last_name with space in between)'
+  - name: order_date
+    description: Order date
+  - name: total_amount
+    description: Order total amount
+  - name: created_at
+    description: Order creation timestamp

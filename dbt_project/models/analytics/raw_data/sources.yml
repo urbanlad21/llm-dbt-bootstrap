@@ -1,0 +1,170 @@
+---
+version: 2
+sources:
+  - name: raw_data
+    description: External tables in raw_data schema
+    tables:
+      - name: customers
+        description: Customer data from CRM
+        external:
+          location: s3://bucket/raw/customers/
+          file_format: CSV
+          partitions:
+            - name: date
+              data_type: date
+          cluster_by:
+            - created_at
+          refresh_frequency: daily
+        columns:
+          - name: customer_id
+            data_type: bigint
+            description: Unique customer identifier
+            tests:
+              - unique
+              - not_null
+          - name: email
+            data_type: varchar(255)
+            description: Customer email address
+            tests:
+              - not_null
+          - name: first_name
+            data_type: varchar(100)
+            description: Customer first name
+          - name: last_name
+            data_type: varchar(100)
+            description: Customer last name
+          - name: created_at
+            data_type: timestamp
+            description: Customer creation timestamp
+            tests:
+              - not_null
+      - name: orders
+        description: Order data from e-commerce
+        external:
+          location: s3://bucket/raw/orders/
+          file_format: CSV
+          partitions:
+            - name: date
+              data_type: date
+          cluster_by:
+            - order_date
+          refresh_frequency: daily
+        columns:
+          - name: order_id
+            data_type: bigint
+            description: Unique order identifier
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            data_type: bigint
+            description: Customer reference
+            tests:
+              - not_null
+          - name: order_date
+            data_type: date
+            description: Order date
+            tests:
+              - not_null
+          - name: total_amount
+            data_type: decimal(10,2)
+            description: Order total amount
+            tests:
+              - not_null
+          - name: created_at
+            data_type: timestamp
+            description: Order creation timestamp
+            tests:
+              - not_null
+      - name: products
+        description: Product catalog data
+        external:
+          location: s3://bucket/raw/products/
+          file_format: CSV
+          partitions:
+            - name: date
+              data_type: date
+          cluster_by:
+            - updated_at
+          refresh_frequency: weekly
+        columns:
+          - name: product_id
+            data_type: bigint
+            description: Unique product identifier
+            tests:
+              - unique
+              - not_null
+          - name: product_name
+            data_type: varchar(200)
+            description: Product name
+            tests:
+              - not_null
+          - name: price
+            data_type: decimal(10,2)
+            description: Product price
+            tests:
+              - not_null
+          - name: is_active
+            data_type: boolean
+            description: Product active status
+            tests:
+              - not_null
+          - name: created_at
+            data_type: timestamp
+            description: Product creation timestamp
+            tests:
+              - not_null
+      - name: order_items
+        description: Order line items data
+        external:
+          location: s3://bucket/raw/order_items/
+          file_format: CSV
+          partitions:
+            - name: date
+              data_type: date
+          cluster_by:
+            - created_at
+          refresh_frequency: daily
+        columns:
+          - name: order_item_id
+            data_type: bigint
+            description: Unique order item identifier
+            tests:
+              - unique
+              - not_null
+          - name: order_id
+            data_type: bigint
+            description: Order reference
+            tests:
+              - not_null
+          - name: product_id
+            data_type: bigint
+            description: Product reference
+            tests:
+              - not_null
+          - name: quantity
+            data_type: integer
+            description: Item quantity
+            tests:
+              - not_null
+          - name: unit_price
+            data_type: decimal(10,2)
+            description: Item unit price
+            tests:
+              - not_null
+          - name: created_at
+            data_type: timestamp
+            description: Order item creation timestamp
+            tests:
+              - not_null
+      - name: categories
+        description: Product categories data
+        external:
+          location: s3://bucket/raw/categories/
+          file_format: CSV
+          partitions:
+            - name: date
+              data_type: date
+          cluster_by:
+            - updated_at
+          refresh_frequency: monthly

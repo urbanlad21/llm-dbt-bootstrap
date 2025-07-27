@@ -1,0 +1,135 @@
+You are an expert dbt developer with deep knowledge of data modeling, SQL optimization, and dbt best practices. Create a production-ready dbt model based on the following specifications.
+
+## Project Context
+{project_context}
+
+## Source Tables
+{source_tables}
+
+## Mapping Details
+{mapping_details}
+
+## Requirements
+
+### 1. Code Quality & Best Practices
+- Follow dbt best practices and naming conventions
+- Use proper incremental logic where appropriate (merge strategy for tables, incremental for large datasets)
+- Include comprehensive documentation and comments
+- Handle edge cases and data quality issues gracefully
+- Use appropriate dbt macros and functions (ref, source, etc.)
+- Ensure proper error handling and null value management
+- Optimize for performance with proper joins and filters
+
+### 2. Data Modeling
+- Implement proper data type casting and validation
+- Handle data quality issues (missing values, duplicates, invalid data)
+- Add appropriate data quality flags and metrics
+- Implement business logic accurately
+- Use CTEs for complex transformations
+- Add proper partitioning and clustering where specified
+
+### 3. Join Conditions
+- If join_conditions are specified, implement them in the correct order
+- Use the specified join types (inner, left, right, full)
+- Ensure proper join keys and conditions
+- Handle multiple joins efficiently with CTEs
+- Add appropriate join descriptions in comments
+
+### 4. Column Transformations
+- If transformations are specified in plain English, implement them as SQL
+- Common transformations to implement:
+  - "cast to bigint" → CAST(column AS BIGINT)
+  - "convert to lowercase and remove extra spaces" → LOWER(TRIM(column))
+  - "capitalize first letter and trim spaces" → INITCAP(TRIM(column))
+  - "convert to decimal with 2 decimal places" → CAST(column AS DECIMAL(10,2))
+  - "concatenate first_name and last_name with space in between" → CONCAT(first_name, ' ', last_name)
+  - "multiply quantity by unit_price" → quantity * unit_price
+  - "convert to timestamp" → CAST(column AS TIMESTAMP)
+  - "convert to date format" → CAST(column AS DATE)
+  - "trim extra spaces" → TRIM(column)
+  - "cast to boolean" → CAST(column AS BOOLEAN)
+  - "cast to integer" → CAST(column AS INTEGER)
+
+### 5. Performance & Optimization
+- Use efficient join strategies
+- Implement proper filtering early in the query
+- Use window functions appropriately for deduplication
+- Add proper indexes and clustering keys
+- Optimize for incremental processing where applicable
+
+### 6. Documentation & Testing
+- Include comprehensive model documentation
+- Add proper column descriptions
+- Include business logic explanations
+- Add data quality checks and validations
+
+## Output Format
+Generate clean, maintainable, and production-ready SQL code with:
+1. Proper dbt config block with materialization strategy
+2. Clear and well-documented SQL with comments
+3. Proper use of dbt functions and macros (ref, source)
+4. Error handling and data quality checks
+5. Performance optimizations
+
+## Example Structure for Staging Models
+```sql
+{{
+  config(
+    materialized='view'
+  )
+}}
+
+-- Staging model for [model_name]
+-- Source: [source_table]
+
+select
+    -- Apply transformations as specified in YAML
+    CAST(customer_id AS BIGINT) as customer_id,
+    LOWER(TRIM(email)) as email,
+    INITCAP(TRIM(first_name)) as first_name,
+    INITCAP(TRIM(last_name)) as last_name,
+    CAST(created_at AS TIMESTAMP) as created_at
+from {{ source('raw_data', '[source_table]') }}
+```
+
+## Example Structure for Complex Models with Joins
+```sql
+{{
+  config(
+    materialized='table',
+    incremental_strategy='merge',
+    unique_key='[unique_key]'
+  )
+}}
+
+-- [Model description]
+-- Business logic: [business_logic]
+
+with [first_table] as (
+    select * from {{ ref('[first_table_name]') }}
+),
+
+[second_table] as (
+    select * from {{ ref('[second_table_name]') }}
+),
+
+joined_data as (
+    select
+        -- Join conditions and column selections
+        a.column1,
+        b.column2,
+        -- Apply any column transformations
+        CONCAT(a.first_name, ' ', a.last_name) as full_name
+    from [first_table] a
+    inner join [second_table] b
+        on a.join_key = b.join_key
+)
+
+select * from joined_data
+```
+
+Generate the complete dbt model following these guidelines. Pay special attention to:
+- Implementing join conditions in the specified order
+- Converting plain English transformations to proper SQL
+- Using appropriate dbt ref() and source() functions
+- Following the business logic and expected behavior specified 

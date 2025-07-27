@@ -1,0 +1,14 @@
+URL: https://XXXXXXXXXX/api-gateway/chat/completions
+Headers: ["Content-Type: application/json", "Authorization: Bearer YOUR_API_KEY"]
+Payload: {
+  "model": "your-model-name",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate dbt model for stg_customers with mapping: {\"name\": \"stg_customers\", \"source_table\": \"raw_customers\", \"description\": \"Staging model for customer data\", \"transformations\": [{\"column_name\": \"customer_id\", \"transformation\": \"cast to bigint\", \"description\": \"Convert customer_id to bigint data type\"}, {\"column_name\": \"email\", \"transformation\": \"convert to lowercase and remove extra spaces\", \"description\": \"Normalize email format\"}, {\"column_name\": \"first_name\", \"transformation\": \"capitalize first letter and trim spaces\", \"description\": \"Standardize first name format\"}, {\"column_name\": \"last_name\", \"transformation\": \"capitalize first letter and trim spaces\", \"description\": \"Standardize last name format\"}, {\"column_name\": \"created_at\", \"transformation\": \"convert to timestamp\", \"description\": \"Ensure proper timestamp format\"}]}"
+    }
+  ],
+  "temperature": 0.2,
+  "top_p": 1.0,
+  "max_tokens": 100
+}

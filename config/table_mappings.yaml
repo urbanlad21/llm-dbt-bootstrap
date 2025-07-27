@@ -1,0 +1,175 @@
+# DBT Table Mappings Configuration
+# Simple example showing join conditions and plain English transformations
+
+# Staging models - Simple transformations from source tables
+staging_models:
+  - name: stg_customers
+    source_table: raw_customers
+    description: "Staging model for customer data"
+    transformations:
+      - column_name: customer_id
+        transformation: "cast to bigint"
+        description: "Convert customer_id to bigint data type"
+      - column_name: email
+        transformation: "convert to lowercase and remove extra spaces"
+        description: "Normalize email format"
+      - column_name: first_name
+        transformation: "capitalize first letter and trim spaces"
+        description: "Standardize first name format"
+      - column_name: last_name
+        transformation: "capitalize first letter and trim spaces"
+        description: "Standardize last name format"
+      - column_name: created_at
+        transformation: "convert to timestamp"
+        description: "Ensure proper timestamp format"
+
+  - name: stg_orders
+    source_table: raw_orders
+    description: "Staging model for order data"
+    transformations:
+      - column_name: order_id
+        transformation: "cast to bigint"
+        description: "Convert order_id to bigint data type"
+      - column_name: customer_id
+        transformation: "cast to bigint"
+        description: "Convert customer_id to bigint data type"
+      - column_name: order_date
+        transformation: "convert to date format"
+        description: "Ensure proper date format"
+      - column_name: total_amount
+        transformation: "convert to decimal with 2 decimal places"
+        description: "Standardize currency format"
+
+  - name: stg_order_items
+    source_table: raw_order_items
+    description: "Staging model for order items data"
+    transformations:
+      - column_name: order_item_id
+        transformation: "cast to bigint"
+        description: "Convert order_item_id to bigint data type"
+      - column_name: order_id
+        transformation: "cast to bigint"
+        description: "Convert order_id to bigint data type"
+      - column_name: product_id
+        transformation: "cast to bigint"
+        description: "Convert product_id to bigint data type"
+      - column_name: quantity
+        transformation: "cast to integer"
+        description: "Convert quantity to integer"
+      - column_name: unit_price
+        transformation: "convert to decimal with 2 decimal places"
+        description: "Standardize price format"
+
+  - name: stg_products
+    source_table: raw_products
+    description: "Staging model for product data"
+    transformations:
+      - column_name: product_id
+        transformation: "cast to bigint"
+        description: "Convert product_id to bigint data type"
+      - column_name: product_name
+        transformation: "trim extra spaces"
+        description: "Remove leading and trailing spaces"
+      - column_name: price
+        transformation: "convert to decimal with 2 decimal places"
+        description: "Standardize price format"
+      - column_name: is_active
+        transformation: "cast to boolean"
+        description: "Convert to boolean type"
+
+# Complex models with joins
+models:
+  - name: dim_customers
+    type: marts
+    mart_type: dimensions
+    description: "Customer dimension table"
+    source_tables:
+      - stg_customers
+    join_conditions: []
+    business_logic: |
+      Create a customer dimension table with one record per customer.
+      Include all customer information from the staging table.
+    expected_behavior: |
+      Should contain one record per customer with all customer details.
+      No deduplication needed as staging handles this.
+    materialization: table
+    incremental_strategy: merge
+    unique_key: customer_id
+    columns:
+      - name: customer_id
+        type: bigint
+        description: "Unique customer identifier"
+        primary_key: true
+        required: true
+      - name: email
+        type: string
+        description: "Customer email address"
+        required: true
+      - name: first_name
+        type: string
+        description: "Customer first name"
+        required: false
+      - name: last_name
+        type: string
+        description: "Customer last name"
+        required: false
+      - name: created_at
+        type: timestamp
+        description: "Customer creation timestamp"
+        required: true
+
+  - name: fact_orders
+    type: marts
+    mart_type: facts
+    description: "Order fact table with customer information"
+    source_tables:
+      - stg_orders
+      - stg_customers
+    join_conditions:
+      - left_table: stg_orders
+        left_column: customer_id
+        join_type: inner
+        right_table: stg_customers
+        right_column: customer_id
+        description: "Join orders with customer information"
+    business_logic: |
+      Create a fact table for orders with customer details.
+      Join orders table with customers table to get customer information.
+      Include order details and customer information in one table.
+    expected_behavior: |
+      Should contain one record per order with customer details.
+      Only include orders that have valid customer information.
+    materialization: table
+    incremental_strategy: merge
+    unique_key: order_id
+    columns:
+      - name: order_id
+        type: bigint
+        description: "Unique order identifier"
+        primary_key: true
+        required: true
+      - name: customer_id
+        type: bigint
+        description: "Customer identifier"
+        required: true
+      - name: customer_email
+        type: string
+        description: "Customer email from joined customer table"
+        required: true
+      - name: customer_name
+        type: string
+        description: "Full customer name (first_name + last_name)"
+        required: false
+        transformation: "concatenate first_name and last_name with space in between"
+      - name: order_date
+        type: date
+        description: "Order date"
+        required: true
+      - name: total_amount
+        type: decimal
+        description: "Order total amount"
+        required: true
+      - name: created_at
+        type: timestamp
+        description: "Order creation timestamp"
+        required: true

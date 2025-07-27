@@ -1,0 +1,14 @@
+URL: https://XXXXXXXXXX/api-gateway/chat/completions
+Headers: ["Content-Type: application/json", "Authorization: Bearer YOUR_API_KEY"]
+Payload: {
+  "model": "your-model-name",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate dbt model for dim_customers with mapping: {\"name\": \"dim_customers\", \"type\": \"marts\", \"mart_type\": \"dimensions\", \"description\": \"Customer dimension table\", \"source_tables\": [\"stg_customers\"], \"join_conditions\": [], \"business_logic\": \"Create a customer dimension table with one record per customer.\\nInclude all customer information from the staging table.\\n\", \"expected_behavior\": \"Should contain one record per customer with all customer details.\\nNo deduplication needed as staging handles this.\\n\", \"materialization\": \"table\", \"incremental_strategy\": \"merge\", \"unique_key\": \"customer_id\", \"columns\": [{\"name\": \"customer_id\", \"type\": \"bigint\", \"description\": \"Unique customer identifier\", \"primary_key\": true, \"required\": true}, {\"name\": \"email\", \"type\": \"string\", \"description\": \"Customer email address\", \"required\": true}, {\"name\": \"first_name\", \"type\": \"string\", \"description\": \"Customer first name\", \"required\": false}, {\"name\": \"last_name\", \"type\": \"string\", \"description\": \"Customer last name\", \"required\": false}, {\"name\": \"created_at\", \"type\": \"timestamp\", \"description\": \"Customer creation timestamp\", \"required\": true}]}"
+    }
+  ],
+  "temperature": 0.2,
+  "top_p": 1.0,
+  "max_tokens": 100
+}

@@ -48,28 +48,3 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# dbt
-dbt_project/
-target/
-dbt_packages/
-logs/
-*.log
-
-# Generated files
-config/
-prompts/
-*.csv
-*.yaml
-*.yml
-
-# Temporary files
-*.tmp
-*.temp
-temp/
-tmp/
-
-# API keys and secrets
-*.key
-*.pem
-secrets/ 

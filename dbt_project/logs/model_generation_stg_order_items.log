@@ -1,0 +1,14 @@
+URL: https://XXXXXXXXXX/api-gateway/chat/completions
+Headers: ["Content-Type: application/json", "Authorization: Bearer YOUR_API_KEY"]
+Payload: {
+  "model": "your-model-name",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate dbt model for stg_order_items with mapping: {\"name\": \"stg_order_items\", \"source_table\": \"raw_order_items\", \"description\": \"Staging model for order items data\", \"transformations\": [{\"column_name\": \"order_item_id\", \"transformation\": \"cast to bigint\", \"description\": \"Convert order_item_id to bigint data type\"}, {\"column_name\": \"order_id\", \"transformation\": \"cast to bigint\", \"description\": \"Convert order_id to bigint data type\"}, {\"column_name\": \"product_id\", \"transformation\": \"cast to bigint\", \"description\": \"Convert product_id to bigint data type\"}, {\"column_name\": \"quantity\", \"transformation\": \"cast to integer\", \"description\": \"Convert quantity to integer\"}, {\"column_name\": \"unit_price\", \"transformation\": \"convert to decimal with 2 decimal places\", \"description\": \"Standardize price format\"}]}"
+    }
+  ],
+  "temperature": 0.2,
+  "top_p": 1.0,
+  "max_tokens": 100
+}

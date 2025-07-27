@@ -1,0 +1,22 @@
+schema_name,table_name,column_name,data_type,is_nullable,is_primary_key,is_unique,default_value,description
+raw_data,customers,customer_id,bigint,false,true,true,,Unique customer identifier
+raw_data,customers,email,"varchar(255)",false,false,true,,Customer email address
+raw_data,customers,first_name,"varchar(100)",true,false,false,,Customer first name
+raw_data,customers,last_name,"varchar(100)",true,false,false,,Customer last name
+raw_data,customers,created_at,timestamp,false,false,false,CURRENT_TIMESTAMP,Customer creation timestamp
+raw_data,orders,order_id,bigint,false,true,true,,Unique order identifier
+raw_data,orders,customer_id,bigint,false,false,false,,Customer reference
+raw_data,orders,order_date,date,false,false,false,,Order date
+raw_data,orders,total_amount,"decimal(10,2)",false,false,false,0.00,Order total amount
+raw_data,orders,created_at,timestamp,false,false,false,CURRENT_TIMESTAMP,Order creation timestamp
+raw_data,order_items,order_item_id,bigint,false,true,true,,Unique order item identifier
+raw_data,order_items,order_id,bigint,false,false,false,,Order reference
+raw_data,order_items,product_id,bigint,false,false,false,,Product reference
+raw_data,order_items,quantity,integer,false,false,false,1,Item quantity
+raw_data,order_items,unit_price,"decimal(10,2)",false,false,false,,Item unit price
+raw_data,order_items,created_at,timestamp,false,false,false,CURRENT_TIMESTAMP,Order item creation timestamp
+raw_data,products,product_id,bigint,false,true,true,,Unique product identifier
+raw_data,products,product_name,"varchar(200)",false,false,false,,Product name
+raw_data,products,price,"decimal(10,2)",false,false,false,0.00,Product price
+raw_data,products,is_active,boolean,false,false,false,true,Product active status
+raw_data,products,created_at,timestamp,false,false,false,CURRENT_TIMESTAMP,Product creation timestamp 

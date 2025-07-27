@@ -1,0 +1,18 @@
+version: 2
+models:
+- name: dim_customers
+  description: Customer dimension table
+  config:
+    contract:
+      enforced: true
+  columns:
+  - name: customer_id
+    description: Unique customer identifier
+  - name: email
+    description: Customer email address
+  - name: first_name
+    description: Customer first name
+  - name: last_name
+    description: Customer last name
+  - name: created_at
+    description: Customer creation timestamp
